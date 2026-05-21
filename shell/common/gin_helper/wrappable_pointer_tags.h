@@ -16,6 +16,7 @@ enum ElectronWrappablePointerTag : uint16_t {
   kElectronAutoUpdater,                     // electron::api::AutoUpdater
   kElectronCookies,                         // electron::api::Cookies
   kElectronDataPipeHolder,                  // electron::api::DataPipeHolder
+  kElectronDesktopCapturer,                 // electron::api::DesktopCapturer
   kElectronDebugger,                        // electron::api::Debugger
   kElectronEvent,                           // gin_helper::internal::Event
   kElectronGlobalShortcut,                  // electron::api::GlobalShortcut
