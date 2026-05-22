@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Charles Kerr <charles@charleskerr.com>
+Date: Fri, 22 May 2026 14:00:00 -0500
+Subject: build: fix tsgo platform logic in typescript
+
+Updates tsgo.gni to fall back to host_os logic so that compiling TypeScript using GN locally for cross-compilation (like Mac/Windows builds from Linux) properly uses the host architecture's binary.
+
+diff --git a/third_party/typescript/tsgo.gni b/third_party/typescript/tsgo.gni
+index cfe733d68d302e611ee2527b1dd2c833a5b39cb6..4dbcab147f66da3dd35cf15be3d06d829dee581c 100644
+--- a/third_party/typescript/tsgo.gni
++++ b/third_party/typescript/tsgo.gni
+@@ -4,17 +4,17 @@
+ 
+ import("//build/toolchain/rbe.gni")
+ 
+-if (is_linux || is_chromeos || use_remoteexec) {
++if (host_os == "linux" || is_linux || is_chromeos || use_remoteexec) {
+   _platform_dir = "linux-amd64"
+   _binary_name = "tsgo"
+-} else if (is_mac && host_os == "mac") {
++} else if (host_os == "mac") {
+   if (host_cpu == "arm64") {
+     _platform_dir = "mac-arm64"
+   } else {
+     _platform_dir = "mac-amd64"
+   }
+   _binary_name = "tsgo"
+-} else if (is_win && host_os == "win") {
++} else if (host_os == "win") {
+   _platform_dir = "windows-amd64"
+   _binary_name = "tsgo.exe"
+ }
